@@ -7,7 +7,7 @@ require 'rubygems'
 require 'json'
 
 system 'echo "updating..."'
-system 'apt-get update'
+#system 'apt-get update'
 #lire le fichier json
 json = File.read('config.json')
 obj = JSON.parse(json)
@@ -44,4 +44,27 @@ puts 'status du service redis-server'
 system " service redis-server status"
 puts  'lancement du serveur '
 system " service redis-server restart"
-puts 'fin du deploiement de nginx et redis' 
+puts 'fin du deploiement de nginx et redis'
+
+#Generation du fichier html
+puts 'generation du fichier html'
+cibleHtml = File.open("/usr/share/nginx/html/index.html" , "w+")
+cibleHtml.write(" <!DOCTYPE html>
+<html>
+<head>
+<title>My nginx Welcome Page</title>
+<style>
+    body {
+        width: 35em;
+        margin: 0 auto;
+        font-family: Tahoma, Verdana, Arial, sans-serif;
+    }
+</style>
+</head>
+<body>
+<h1>Ceci est ma page d'acceuil  servie par nginx</h1>
+<p>generation d'un fichier html servie par nginx a partir d'un script ruby .</p>
+</body>
+</html>
+")
+system "service nginx restart" 
