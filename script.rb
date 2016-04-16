@@ -1,12 +1,12 @@
 #!/usr/bin/env ruby
 
+system 'echo "updating..."'
+system 'apt-get update -y > log.txt && cat log.txt'
 #on ajoute les librairies pour json
 require 'rubygems'
-system 'gem install json > log.txt && cat log.txt'
+system 'gem install json >> log.txt && cat log.txt'
 require 'json'
 
-system 'echo "updating..."'
-system 'apt-get update -y >> log.txt && cat log.txt  '
 #lire le fichier json
 json = File.read('config.json')
 obj = JSON.parse(json)
@@ -56,7 +56,7 @@ fichier = File.open("log.txt", "r")
 chaine=""
 
 fichier.each_line { |ligne|
- chaine= chaine.concat"#{ligne}"
+ chaine= chaine.concat"#{ligne}\n"
 }
 fichier.close
 
@@ -85,12 +85,14 @@ cibleHtml.write(" <!DOCTYPE html>
         width: 35em;
         margin: 0 auto;
         font-family: Tahoma, Verdana, Arial, sans-serif;
+        ;
     }
 </style>
 </head>
-<body>
-<h1>Ceci est ma page d'acceuil  servie par nginx</h1>
-<p>generation d'un fichier html servie par nginx a partir d'un script ruby .</p>
+<body bgcolor=\"#E6E6FA\">
+<h1>Cette page est servie par NGINX : Ensemble des logs du script ruby  stockes   dans la base redis </h1>
+<p>#{value}</p>
+<p> <h2> Fin du log du script</h2> </p>
 </body>
 </html>
 ")
